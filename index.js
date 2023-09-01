@@ -1,5 +1,6 @@
 const express = require('express');
 const puppeteer = require('puppeteer');
+require("dotenv").config();
 const app = express();
 const cors = require('cors');
 const port = 5000;
@@ -25,7 +26,15 @@ app.get("/verge-scraping", async (req, res) => {
         userSearch += temp_words[i];
     }
     const url = `https://www.theverge.com/search?q=${userSearch}`;
-    const browser = await puppeteer.launch({headless: true});
+    const browser = await puppeteer.launch({
+        executablePath: process.env.NODE_ENV ? process.env.PUPPETEER_EXECUTABLE_PATH : puppeteer.executablePath(),
+        args: [
+            "--disable-setuid-sandbox",
+            "--no-sandbox",
+            "--single-process",
+            "--no-zygote",
+        ]
+    });
     try {
         const page = await browser.newPage();
         await page.goto(url, {timeout: 0});
@@ -60,7 +69,15 @@ app.get("/vb-scraping", async (req, res) => {
         userSearch += temp_words[i];
     }
     const url = `https://venturebeat.com/?s=${userSearch}`;
-    const browser = await puppeteer.launch({headless: true});
+    const browser = await puppeteer.launch({
+        executablePath: process.env.NODE_ENV ? process.env.PUPPETEER_EXECUTABLE_PATH : puppeteer.executablePath(),
+        args: [
+            "--disable-setuid-sandbox",
+            "--no-sandbox",
+            "--single-process",
+            "--no-zygote",
+        ]
+    });
     try {
         const page = await browser.newPage();
         await page.goto(url);
@@ -88,7 +105,15 @@ app.get("/vb-scraping", async (req, res) => {
 //Feed Headline techNewsWorld
 app.get("/feed-headline", async (req, res) => {
     const url = "https://techcrunch.com/";
-    const browser = await puppeteer.launch({headless: true});
+    const browser = await puppeteer.launch({
+        executablePath: process.env.NODE_ENV ? process.env.PUPPETEER_EXECUTABLE_PATH : puppeteer.executablePath(),
+        args: [
+            "--disable-setuid-sandbox",
+            "--no-sandbox",
+            "--single-process",
+            "--no-zygote",
+        ]
+    });
     try {
         const page = await browser.newPage();
         await page.goto(url, {timeout: 0});
@@ -115,10 +140,17 @@ app.get("/feed-headline", async (req, res) => {
 app.get("/feed-content", async (req, res) => {
     const url = "https://techcrunch.com/";
     const browser = await puppeteer.launch({
-        headless: true, defaultViewport: {
+        defaultViewport: {
             width: 1920,
             height: 1080
-        }
+        },
+        executablePath: process.env.NODE_ENV ? process.env.PUPPETEER_EXECUTABLE_PATH : puppeteer.executablePath(),
+        args: [
+            "--disable-setuid-sandbox",
+            "--no-sandbox",
+            "--single-process",
+            "--no-zygote",
+        ]
     });
     try {
         const page = await browser.newPage();
