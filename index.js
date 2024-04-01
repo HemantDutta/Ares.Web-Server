@@ -33,7 +33,8 @@ app.get("/verge-scraping", async (req, res) => {
             "--no-sandbox",
             "--single-process",
             "--no-zygote",
-        ]
+        ],
+        headless: false
     });
     try {
         const page = await browser.newPage();
@@ -59,7 +60,7 @@ app.get("/verge-scraping", async (req, res) => {
     }
 });
 
-//Scraping news from WIRED
+//Scraping news from VentureBeat
 app.get("/vb-scraping", async (req, res) => {
     let userSearch = req.query.search;
     let temp_words = userSearch.split(" ");
